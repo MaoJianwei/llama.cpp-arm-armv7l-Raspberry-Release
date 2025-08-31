@@ -10,6 +10,7 @@ on:
   push:
     branches:
       - master
+      - mao
     paths: ['.github/workflows/release.yml', '**/CMakeLists.txt', '**/.cmake', '**/*.h', '**/*.hpp', '**/*.c', '**/*.cpp', '**/*.cu', '**/*.cuh', '**/*.swift', '**/*.m', '**/*.metal', '**/*.comp']
 
 concurrency:
