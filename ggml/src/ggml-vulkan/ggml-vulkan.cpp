@@ -4587,20 +4587,20 @@ static vk_pipeline ggml_vk_get_dequantize_mul_mat_vec(ggml_backend_vk_context * 
 
     // heuristic to choose workgroup size
     uint32_t dmmv_wg = DMMV_WG_SIZE_SUBGROUP;
-    if (ctx->device->vendor_id == VK_VENDOR_ID_NVIDIA || ctx->device->vendor_id == VK_VENDOR_ID_INTEL) {
-        // Prefer larger workgroups when M is small, to spread the work out more
-        // and keep more SMs busy.
-        // q6_k seems to prefer small workgroup size even for "medium" values of M.
-        if (a_type == GGML_TYPE_Q6_K) {
-            if (m < 4096 && k >= 1024) {
-                dmmv_wg = DMMV_WG_SIZE_LARGE;
-            }
-        } else {
-            if (m <= 8192 && k >= 1024) {
-                dmmv_wg = DMMV_WG_SIZE_LARGE;
-            }
-        }
-    }
+    // if (ctx->device->vendor_id == VK_VENDOR_ID_NVIDIA || ctx->device->vendor_id == VK_VENDOR_ID_INTEL) {
+    //     // Prefer larger workgroups when M is small, to spread the work out more
+    //     // and keep more SMs busy.
+    //     // q6_k seems to prefer small workgroup size even for "medium" values of M.
+    //     if (a_type == GGML_TYPE_Q6_K) {
+    //         if (m < 4096 && k >= 1024) {
+    //             dmmv_wg = DMMV_WG_SIZE_LARGE;
+    //         }
+    //     } else {
+    //         if (m <= 8192 && k >= 1024) {
+    //             dmmv_wg = DMMV_WG_SIZE_LARGE;
+    //         }
+    //     }
+    // }
 
     return b_type == GGML_TYPE_F32 ? ctx->device->pipeline_dequant_mul_mat_vec_f32_f32[dmmv_wg][a_type][num_cols-1] : ctx->device->pipeline_dequant_mul_mat_vec_f16_f32[dmmv_wg][a_type][num_cols-1];
 }
